@@ -14,17 +14,39 @@ void criptografar(char *senha) {
 
 //==========================================================================================================================================
 
-int verificaSenha(char senha){
+bool verif_senha (const char *senha) {
+    bool s1= false, s2= false, s3= false, s4= false, s5= false;
+    int tam = strlen(senha);
 
 
-    if (/* condition */)
-    {
-        return 1; //verificou corretamente
-    }else{
-        return 0; // não atingiu os parâmetros
-    }
-    
+        if (tam > 8 && tam < 12) s1 = true; // Validou o tamanho da senha
+
+            for (int i=0; i < tam; i++) {
+                char uni = senhaS[i]; //verifica caracter por caracter por meio de ponteiro
+
+                if (uni >= 65 && uni <= 90) {
+                    s2 = true; //verif letras maiusculas
+                } 
+                
+                if (uni >= 97 && uni <= 122) {
+                    s3 = true; // verif letras minusculas
+                    }
+                    
+                     if (uni >= 48 && uni <= 57) {
+                        s4 = true;  //verif numeros
+                            }
+                            
+                             if (uni >= 32 && uni <= 47 || uni >= 58 && uni <= 64 || uni >= 91 && uni <= 96 || uni >= 123 && uni <= 126) { 
+                                s5 = true; //verif caract especiais
+                            }
+
+            }
+
+        if (s1 && s2 && s3 && s4 && s5) return true;
+
+    else return false;
 }
+ 
 
 //==========================================================================================================================================
 
@@ -59,6 +81,7 @@ void mostrarMenu() {
     printf("5. Sair\n");
     printf("===================================\n");
     printf("Escolha uma opção: ");
+    printf("===================================\n");
 }
 
 //==========================================================================================================================================
@@ -76,7 +99,7 @@ void opcao1() {
     printf("Agora digite sua senha");
     scanf("%s", senha);
     
-    if verificaSenha(senha == 1){
+    if verif_senha(senha){
 
     criptografar(senha);
 
@@ -87,7 +110,7 @@ void opcao1() {
 
     }
         
-    } while (verificaSenha != 1);
+    } while (verif_senha(senha) != 1);
     
     printf("===============================\n");
 }
