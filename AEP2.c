@@ -110,8 +110,7 @@ void opcao1() {
 
     }
         
-    } while (verif_senha(senha) != 1);
-    
+    } while (verif_senha(senha) != false);
     printf("===============================\n");
 }
 
