@@ -1,7 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
+#include <ctype.h>
 
+//==========================================================================================================================================
+    char usuario[100][15]; // Variáveis globais
+    char senha[100][15];
+    int numusuarios = 0;
 //==========================================================================================================================================
 
 #define CHAVE 5
@@ -22,7 +28,7 @@ bool verif_senha (const char *senha) {
         if (tam > 8 && tam < 12) s1 = true; // Validou o tamanho da senha
 
             for (int i=0; i < tam; i++) {
-                char uni = senhaS[i]; //verifica caracter por caracter por meio de ponteiro
+                char uni = senha[i]; //verifica caracter por caracter por meio de ponteiro
 
                 if (uni >= 65 && uni <= 90) {
                     s2 = true; //verif letras maiusculas
@@ -50,11 +56,11 @@ bool verif_senha (const char *senha) {
 
 //==========================================================================================================================================
 
-/*char descriptografar(char senha){
- 
-
+void descriptografar(char *senha) {
+    for (int i = 0; i < strlen(senha); i++) {
+        senha[i] = senha[i] - CHAVE;
+    }
 }
-*/
 
 //==========================================================================================================================================
 
@@ -66,8 +72,61 @@ bool verif_senha (const char *senha) {
 
 //==========================================================================================================================================
 
-//xxx excluirCadastro(){}
+void excluirCadastro () {
+    char usuarioexclusao [100], escolha;
+    int x, y;
+    
+        do  {
 
+            system("cls");  
+            printf ("EXCLUIR: \n");
+            printf ("Qual usuário deseja excluir? \n");
+                scanf ("%s", usuarioexclusao);
+
+            y = buscaUsuario(usuarioexclusao); //Passei a função que busca o índice do usuário para ver onde ele esta localizado e se ja existe
+
+            if (y == -1) {  //Se o índice for menor que 1, significa que não foi encontrado
+
+                printf ("Usuário não encontrado! \n");
+                printf ("Digite ENTER para continuar... \n");
+
+                getchar ();
+                getchar ();
+
+            } 
+
+        } while (y == -1);
+
+        getchar ();
+        printf ("Digite 'S' para confirmar a exclusão: \n");
+            scanf (" %c", &escolha);
+
+        if (toupper(escolha) == 'S') {
+
+            for (int x = y; x < numusuarios; x++) {  //Esse loop é responsável por "arrumar" a lista sem que sobrem espaços apos tirar um usuario
+                strcpy(usuario[x], usuario[x + 1]);
+                strcpy(senha[x], senha[x + 1]);
+            }
+
+        numusuarios--;
+            printf ("Usuário excluido com sucesso! \n");
+
+        }   else printf ("Exclusão cancelada! \n"); 
+
+}
+
+//==========================================================================================================================================
+
+int buscaUsuario (char *nomeBuscado) {  //Função que busca o índice (onde ele esta) do usuário
+        for (int i = 0; i < numusuarios; i++) {
+
+            if (strcmp(usuario [i], nomeBuscado) == 0 ) {
+                return i;
+            }
+        }
+ 
+    return -1;
+}
 //==========================================================================================================================================
 
 void mostrarMenu() {
@@ -87,6 +146,8 @@ void mostrarMenu() {
 //==========================================================================================================================================
 
 void opcao1() {
+
+
     printf("===============================\n");
     printf("Você escolheu Criar um usuário!\n");
     printf("===============================\n");
@@ -96,22 +157,23 @@ void opcao1() {
     do
     {
     printf("===============================\n");
-    printf("Agora digite sua senha");
-    scanf("%s", senha);
+    printf("Agora digite sua senha: \n");
+        scanf("%s", senha);
     
-    if verif_senha(senha){
+    if (verif_senha(senha)){
 
-    criptografar(senha);
+        criptografar(senha);
 
-    printf("Parabéns, agora você está cadastrado.");
-    }else{
+    printf("Parabéns, agora você está cadastrado.\n");
+    break;
+        }else{
 
     printf("Senha não atingiu os parâmetros desejados, digite novamente.");
 
     }
         
     } while (verif_senha(senha) != false);
-    printf("===============================\n");
+        printf("===============================\n");
 }
 
 //==========================================================================================================================================
@@ -136,8 +198,9 @@ void opcao4() {
     printf("==================================\n");
     printf("Você escolheu Excluir um cadastro!\n");
     printf("==================================\n");
+    excluirCadastro(); 
+    excluirCadastro;
 }
-
 //==========================================================================================================================================
 
 void opcao5() {
@@ -150,8 +213,7 @@ void opcao5() {
 
 
 int main() {
-    char usuario[100][15];
-    char senha[100][15];
+    
 
     int escolha;
     do {
