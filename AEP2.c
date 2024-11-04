@@ -139,7 +139,7 @@ void mostrarMenu() {
     printf("4. Excluir Cadastros\n");
     printf("5. Sair\n");
     printf("===================================\n");
-    printf("Escolha uma opção: ");
+    printf("Escolha uma opção:\n ");
     printf("===================================\n");
 }
 
