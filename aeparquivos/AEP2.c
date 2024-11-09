@@ -16,25 +16,30 @@ int numusuarios = 0;
 void lerArquivo() {
     FILE *arquivo = fopen("usuarios.txt", "r");
     if (arquivo == NULL) {
-        printf("Erro ao abrir o arquivo.\n");
+        printf("O arquivo 'usuarios.txt' não existe ou não pode ser aberto.\n");
         return;
     }
-     while (fscanf(arquivo, "%s %s", usuario[numusuarios], senha[numusuarios]) == 2) {
-         numusuarios++;
-         if (numusuarios >= 15) break;
-     }
+
+    numusuarios = 0; 
+    while (fscanf(arquivo, "%99s %99s", usuario[numusuarios], senha[numusuarios]) == 2) {
+        numusuarios++;
+        if (numusuarios >= 15) break;  
+    }
     fclose(arquivo);
 }
 //==========================================================================================================================================
-void salvarCadastro () {
+void salvarCadastro() {
     FILE *arquivo = fopen("usuarios.txt", "w");
     if (arquivo == NULL) {
-        printf ("Erro ao carregar o arquivo.\n");
+        printf("Erro ao abrir o arquivo para salvar.\n");
+        return;
     }
+
     for (int i = 0; i < numusuarios; i++) {
-        fprintf(arquivo, "%s %s\n", usuario [i], senha [i]);
+        fprintf(arquivo, "%s %s\n", usuario[i], senha[i]);
     }
-    fclose (arquivo);
+    fclose(arquivo);
+    printf("Cadastro salvo com sucesso!\n");
 }
 //==========================================================================================================================================
 
@@ -288,7 +293,6 @@ void opcao3() {
     printf("====================================\n");
     printf("Você escolheu Atualizar um cadastro!\n");
     printf("====================================\n");
-
     atualizarCadastro ();
 }
 
@@ -330,7 +334,7 @@ void infos(){
 
 int main () {
     int escolhaCargo, escolha;
-
+    lerArquivo();
 
     setlocale(LC_ALL, "Portuguese");
 
